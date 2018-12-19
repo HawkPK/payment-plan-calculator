@@ -1,0 +1,44 @@
+
+<h1>Loan Calculator</h1>
+<div class="form-group">
+    <label for="sort" class="control-label"> Loan Type </label>
+    <select id="loanType" [(ngModel)]="loadResource.loanTypeId" name="loanType">
+        <option *ngFor="let loanType of _loanTypes" [value]="loanType">{{loanType}}</option>
+    </select>
+</div>
+
+<form class="form-inline" (ngSubmit)="calculate(_loanResource)">
+  <div class="col-md-10 col-md-offset-1 row">
+  <div class="form-group">
+      <label for="name-input" class="col-form-label">Loan Value </label>
+      <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.value" name="value">
+    </div>
+  <div class="form-group">
+      <label for="name-input" class="col-form-label">Repayment Date</label>
+        <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.repaymentPeriod" name="RepaymentPeriod">
+  </div>
+  <div class="form-group">
+      <label for="name-input" class="col-form-label">Bank Interest Rate</label>
+      <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.repaymentPeriod" name="RepaymentPeriod">
+  </div>
+</div>
+  <div class="col-md-6 col-md-offset-4 row">
+      <button type="submit" class="btn btn-success">Calculate Loan</button>
+  </div>
+</form>
+
+
+<table class='table'>
+    <thead>
+      <tr>
+        <th>Installment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let installement of _installements">
+        <td>{{ installement }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
