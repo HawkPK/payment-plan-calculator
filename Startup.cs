@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using payment_plan_calculator.Mapping;
+using payment_plan_calculator.Mapping.Interface;
+using payment_plan_calculator.Service.Domain.Interface;
 
 namespace payment_plan_calculator
 {
@@ -20,6 +24,9 @@ namespace payment_plan_calculator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ILoanPlannerBuilder, LoanPlannerBuilder>();
+            services.AddScoped<IResourceMapper, InstallmentResourceMapper >();
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory

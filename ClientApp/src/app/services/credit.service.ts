@@ -15,14 +15,19 @@ export class CreditService {
     this._baseUrl = baseUrl;
   }
 
-  GetInstallmentsPerMonth(loadResource: LoanResource): Observable<any> {
+  GetInstallmentsPerMonth(loanResource: LoanResource): Observable<any> {
     const data = {
-      value: loadResource.value,
-      repaymentPeriod: loadResource.repaymentPeriod,
-      loanType: loadResource.loanType
+      value: loanResource.value,
+      repaymentPeriod: loanResource.repaymentPeriod,
+      loanTypeId: loanResource.loanTypeId,
     }
-
     return this.http.get(this._baseUrl + 'api/Loan/Detail',  {params: data}).map(result => {
+        this._result = result.json() as string;
+        return this._result}) 
+  }
+
+  GetLoanOfferts(): Observable<any> {
+    return this.http.get(this._baseUrl + 'api/Loan/Offer').map(result => {
         this._result = result.json() as string;
         return this._result}) 
   }

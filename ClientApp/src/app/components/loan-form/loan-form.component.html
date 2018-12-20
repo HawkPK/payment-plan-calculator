@@ -2,7 +2,7 @@
 <h1>Loan Calculator</h1>
 <div class="form-group">
     <label for="sort" class="control-label"> Loan Type </label>
-    <select id="loanType" [(ngModel)]="loadResource.loanTypeId" name="loanType">
+    <select id="loanType" [(ngModel)]="_loanResource.loanType" name="loanType">
         <option *ngFor="let loanType of _loanTypes" [value]="loanType">{{loanType}}</option>
     </select>
 </div>
@@ -31,12 +31,18 @@
 <table class='table'>
     <thead>
       <tr>
+        <th>Month</th>
+        <th>Asset</th>
+        <th>Interest</th>
         <th>Installment</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let installement of _installements">
-        <td>{{ installement }}</td>
+        <td>{{ installement.month }}</td>
+        <td>{{ installement.asset }}</td>
+        <td>{{ installement.interest }}</td>
+        <td>{{ installement.installment }}</td>
       </tr>
     </tbody>
   </table>

@@ -1,33 +1,45 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using payment_plan_calculator.Controllers.Resources;
+using payment_plan_calculator.Mapping.Interface;
+using payment_plan_calculator.Model;
+using payment_plan_calculator.Service.Domain.Interface;
+
 namespace payment_plan_calculator.Controllers
 {
     [Route("api/[controller]")]
     public class LoanController
     {
-        [HttpGet("[action]")]
-        public decimal[] Detail([FromQuery]int value, 
-            [FromQuery]int repaymentPeriod, [FromQuery]string loanType)
+        private ILoanPlannerBuilder _loanPlannerBuilder;
+        private readonly IResourceMapper _resourceMapper;
+        public LoanController(ILoanPlannerBuilder loanPlannerBuilder, IResourceMapper resourceMapper)
         {
-            if(loanType == "Mortage"){
-                Console.WriteLine(value + " Wartosc kredytu," + repaymentPeriod + " czas splaty kredytu");
-                decimal[] installments = new decimal[repaymentPeriod];
-                decimal installment = value/repaymentPeriod;
-                decimal loanCost = (decimal)value;
-                for(var i = 0; i < repaymentPeriod; i++){
-                    var interst = loanCost*0.035m;
-                    Console.WriteLine(interst);
-                    installments[i] = installment + interst;
-                    Console.WriteLine(installment + interst);
-                    loanCost -= installment;
-                    Console.WriteLine(loanCost);
-                }
+            _loanPlannerBuilder = loanPlannerBuilder;
+            _resourceMapper = resourceMapper;
+        }
+        [HttpGet("[action]")]
+        public IEnumerable<InstallmentResource> Detail([FromQuery]int value, [FromQuery]int repaymentPeriod, 
+            [FromQuery]int loanTypeId)
+        {
+            Console.WriteLine(loanTypeId);
+            IList<InstallmentResource> installmentResources = new List<InstallmentResource>();
+            var installments = _loanPlannerBuilder.GetInstallmentPlan(loanTypeId, value, repaymentPeriod);
+            foreach(var installment in installments)
+            {          
+                var installmentResource = _resourceMapper.MapToInstallmentResource(installment);
+                installmentResources.Add(installmentResource);
             }
-            return installments;
+            return (IEnumerable<InstallmentResource>)installmentResources;
+        }
+        [HttpGet("[action]")]
+        public IEnumerable<InstallmentResource> Offer()
+        {
+            LoanDao loanDao = new LoanDao();
+            //loanDao.GetLoanDetail
+            IList<InstallmentResource> installmentResources = new List<InstallmentResource>();
+            return (IEnumerable<InstallmentResource>)installmentResources;
         }
     }
 }
