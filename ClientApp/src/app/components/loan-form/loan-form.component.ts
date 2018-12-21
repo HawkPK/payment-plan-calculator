@@ -10,11 +10,10 @@ import { LoanOfferResource } from '../../model/LoanOfferResource';
   styleUrls: ['./loan-form.component.css']
 })
 export class LoanFormComponent implements OnInit {
-
-
   private _installements: InstallmentResource[];
-  private _loanResource: LoanResource;
+  private _loanResource: LoanResource = new LoanResource(0,0,0,"",0.0);
   private _loanOfferResources: LoanOfferResource[];
+  private _error = false;
 
   constructor(private _creditService: CreditService) { 
   }
@@ -24,25 +23,22 @@ export class LoanFormComponent implements OnInit {
       this._loanOfferResources = data as LoanOfferResource[];
       var loanOfferResource = this._loanOfferResources[0];
       this._loanResource = new LoanResource(25000,10,loanOfferResource.id,loanOfferResource.type,loanOfferResource.interest);
-      this._loanOfferResources.forEach(function(element){
-        console.log("The value of the credit amount is " + element.id + " " + element.type);
-      })
     });
    
   }
 
   calculate(loadResource: LoanResource){
-    this._creditService.GetInstallmentsPerMonth(loadResource).subscribe( data => {
-      this._installements = data as InstallmentResource[];
-      this._installements.forEach(function(element){
-        console.log("The value of the credit amount is " + element.month + " " + element.installment);
-      })
-    
-    });
+    if(!this._creditService.CheckIsLoanValid(loadResource)){
+      this._error = true;
+    } else {
+      this._error = false;
+      this._creditService.GetInstallmentsPerMonth(loadResource).subscribe( data => {
+        this._installements = data as InstallmentResource[];   
+      });
+    }
   }
 
   setLoanOffer(id: Number): void {
-    console.log(id);
     var loanOffer = this._loanOfferResources.filter(x => x.id == id)[0];
     this._loanResource.interest = loanOffer.interest;
     this._loanResource.loanOfferType = loanOffer.type;

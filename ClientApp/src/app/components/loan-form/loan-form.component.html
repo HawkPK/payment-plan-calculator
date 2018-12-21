@@ -1,32 +1,35 @@
 
 <h1>Loan Calculator</h1>
+<div class="row">
+    <div *ngIf="_error" class="col-md-6 alert alert-danger">
+        <strong>Danger!</strong> Loan Value and month value have to be more than 0
+    </div>
+</div>
 <div class="form-group">
     <label for="sort" class="control-label"> Loan Type </label>
     <select id="loanType" (ngModelChange)="setLoanOffer($event)" [(ngModel)]="_loanResource.loanOfferId" name="loanType">
         <option *ngFor="let loanOffer of _loanOfferResources" [value]="loanOffer.id">{{loanOffer.name}}</option>
     </select>
 </div>
-
 <form class="form-inline" (ngSubmit)="calculate(_loanResource)">
   <div class="col-md-10 col-md-offset-1 row">
   <div class="form-group">
       <label for="name-input" class="col-form-label">Loan Value </label>
-      <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.value" name="value">
+      <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.value" name="value" placeholder="Loan value">
     </div>
   <div class="form-group">
-      <label for="name-input" class="col-form-label">Repayment Date</label>
-        <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.repaymentPeriod" name="RepaymentPeriod">
+      <label for="name-input" class="col-form-label">Repayment in Month</label>
+        <input class="form-control text-center" type="number" [(ngModel)]="_loanResource.repaymentPeriod" name="RepaymentPeriod" placeholder="Month Number">
   </div>
   <div class="form-group">
       <label for="name-input" class="col-form-label">Interest Rate</label>
-      <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.interest " name="Interest">
+      <input class="form-control text-center" type="text" [value]="_loanResource.interest | percent:'1.0-2'" name="Interest" readonly>
   </div>
 </div>
   <div class="col-md-6 col-md-offset-4 row">
       <button type="submit" class="btn btn-success">Calculate Loan</button>
   </div>
 </form>
-
 
 <table class='table'>
     <thead>
@@ -40,9 +43,9 @@
     <tbody>
       <tr *ngFor="let installement of _installements">
         <td>{{ installement.month }}</td>
-        <td>{{ installement.asset | currency:'EUR':true }}</td>
-        <td>{{ installement.interest | currency:'EUR':true}}</td>
-        <td>{{ installement.installment | currency:'EUR':true}}</td>
+        <td>{{ installement.asset | currency:'EUR'}}</td>
+        <td>{{ installement.interest | currency:'EUR'}}</td>
+        <td>{{ installement.installment | currency:'EUR'}}</td>
       </tr>
     </tbody>
   </table>

@@ -30,4 +30,11 @@ export class CreditService {
         this._result = result.json() as string;
         return this._result}) 
   }
+
+  CheckIsLoanValid(loadResource: LoanResource) {
+    if(loadResource.value > 0 && loadResource.repaymentPeriod > 0){
+      return true;
+    }
+    return false;
+  }
 }

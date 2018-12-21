@@ -8,7 +8,21 @@ namespace payment_plan_calculator.Service
     {
         public List<Installment> CreateNew(int loanValue, int totalMonthNumber, decimal interest)
         {
-            throw new System.NotImplementedException();
+            var installments = new List<Installment>();
+            decimal asset = (decimal)loanValue / totalMonthNumber;
+            decimal loanValueToPay = loanValue;
+            for (var i = 1; i <= totalMonthNumber; i++)
+            {
+                var installment = new Installment()
+                {
+                    Id = i,
+                    Asset = loanValueToPay * interest,
+                    Interest = loanValueToPay * interest,
+                };
+                installments.Add(installment);
+                loanValueToPay -= asset;
+            }
+            return installments;
         }
     }
 }

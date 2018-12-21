@@ -25,7 +25,7 @@ namespace payment_plan_calculator.Service.DataAccess.Persistence
                     Name = LoanName.Mortgage,
                 };
                 _loanOffers.Add(loanMortgageDetail);
-
+                /*
                 var loanCarOffer = new LoanOffer()
                 {
                     Id = 2,
@@ -33,7 +33,7 @@ namespace payment_plan_calculator.Service.DataAccess.Persistence
                     Type = IntallmentType.Decreasing,
                     Name = LoanName.Car,
                 };
-                _loanOffers.Add(loanCarOffer);
+                _loanOffers.Add(loanCarOffer);*/
             }
         }
 

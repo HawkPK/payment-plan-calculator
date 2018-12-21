@@ -8,15 +8,17 @@ namespace payment_plan_calculator.Service.Domain.Interface
 {
     public class LoanPlannerBuilder : ILoanPlannerBuilder
     {
-        private IInstallmentPlanner _installmentPlanner;
+        private IInstallmentPlanner _equalInstallmentPlanner;
+        private IInstallmentPlanner _decreasingInstallmentPlanner;
         private ILoanDao _loanDao;
-        public LoanPlannerBuilder() : this(new EqualInstallmentPlanner(), new LoanDao())
+        public LoanPlannerBuilder() : this(new EqualInstallmentPlanner(), new EqualInstallmentPlanner(), new LoanDao())
         {
         }
 
-        public LoanPlannerBuilder(IInstallmentPlanner installmentPlanner, ILoanDao loanDao)
+        public LoanPlannerBuilder(IInstallmentPlanner equalInstallmentPlanner, IInstallmentPlanner decreasingInstallmentPlanner, ILoanDao loanDao)
         {
-            _installmentPlanner = installmentPlanner;
+            _equalInstallmentPlanner = equalInstallmentPlanner;
+            _decreasingInstallmentPlanner = decreasingInstallmentPlanner;
             _loanDao = loanDao;
         }
         public List<Installment> GetInstallmentPlan(int loanTypeId, int loanValue, int repaymentPeriod)
@@ -26,10 +28,14 @@ namespace payment_plan_calculator.Service.Domain.Interface
 
             if(loanDetail.Type == IntallmentType.Equal)
             {
-                installmentPlan = _installmentPlanner.CreateNew(loanValue, repaymentPeriod, loanDetail.Interest);
+                installmentPlan = _equalInstallmentPlanner.CreateNew(loanValue, repaymentPeriod, loanDetail.Interest);
             }
 
-            installmentPlan = _installmentPlanner.CreateNew(loanValue, repaymentPeriod, loanDetail.Interest);
+            if (loanDetail.Type == IntallmentType.Decreasing)
+            {
+                installmentPlan = _decreasingInstallmentPlanner.CreateNew(loanValue, repaymentPeriod, loanDetail.Interest);
+            }
+       
             return installmentPlan;
         }
     }
