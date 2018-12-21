@@ -25,7 +25,7 @@ namespace payment_plan_calculator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ILoanPlannerBuilder, LoanPlannerBuilder>();
-            services.AddScoped<IResourceMapper, InstallmentResourceMapper >();
+            services.AddScoped<IResourceMapper, ResourceMapper >();
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

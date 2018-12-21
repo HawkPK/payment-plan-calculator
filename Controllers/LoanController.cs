@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using payment_plan_calculator.Controllers.Resources;
 using payment_plan_calculator.Mapping.Interface;
 using payment_plan_calculator.Model;
+using payment_plan_calculator.Service.DataAccess;
 using payment_plan_calculator.Service.Domain.Interface;
 
 namespace payment_plan_calculator.Controllers
@@ -34,12 +35,12 @@ namespace payment_plan_calculator.Controllers
             return (IEnumerable<InstallmentResource>)installmentResources;
         }
         [HttpGet("[action]")]
-        public IEnumerable<InstallmentResource> Offer()
+        public IEnumerable<OfferResource> Offer()
         {
             LoanDao loanDao = new LoanDao();
-            //loanDao.GetLoanDetail
-            IList<InstallmentResource> installmentResources = new List<InstallmentResource>();
-            return (IEnumerable<InstallmentResource>)installmentResources;
+            var offerts = loanDao.GetAllOferts();
+            var offerResources = _resourceMapper.MapToOfferResource(offerts);
+            return offerResources;
         }
     }
 }

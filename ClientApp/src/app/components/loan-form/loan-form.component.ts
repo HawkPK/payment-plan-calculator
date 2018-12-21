@@ -1,8 +1,8 @@
 import { CreditService } from '../../services/credit.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { LoanResource } from '../../model/LoanResource';
 import { InstallmentResource } from '../../model/InstallmentResource';
+import { LoanOfferResource } from '../../model/LoanOfferResource';
 
 @Component({
   selector: 'app-credit-form',
@@ -11,25 +11,24 @@ import { InstallmentResource } from '../../model/InstallmentResource';
 })
 export class LoanFormComponent implements OnInit {
 
-  private _route: ActivatedRoute;
+
   private _installements: InstallmentResource[];
   private _loanResource: LoanResource;
-  private _loanResources: LoanResource[];
-  private _loanTypes: String[] = ["Mortage","Cars"];
-  private _loanType: String;
+  private _loanOfferResources: LoanOfferResource[];
 
-  constructor(route: ActivatedRoute, private _creditService: CreditService) { 
-    this._route = route;
+  constructor(private _creditService: CreditService) { 
   }
 
   ngOnInit() {
-    this._loanResource = new LoanResource(25000,10,1, "Mortgage");
     this._creditService.GetLoanOfferts().subscribe( data => {
-      this._loanResources = data as LoanResource[];
-      this._installements.forEach(function(element){
-        console.log("The value of the credit amount is " + element.month + " " + element.installment);
+      this._loanOfferResources = data as LoanOfferResource[];
+      var loanOfferResource = this._loanOfferResources[0];
+      this._loanResource = new LoanResource(25000,10,loanOfferResource.id,loanOfferResource.type,loanOfferResource.interest);
+      this._loanOfferResources.forEach(function(element){
+        console.log("The value of the credit amount is " + element.id + " " + element.type);
       })
     });
+   
   }
 
   calculate(loadResource: LoanResource){
@@ -41,4 +40,11 @@ export class LoanFormComponent implements OnInit {
     
     });
   }
+
+  setLoanOffer(id: Number): void {
+    console.log(id);
+    var loanOffer = this._loanOfferResources.filter(x => x.id == id)[0];
+    this._loanResource.interest = loanOffer.interest;
+    this._loanResource.loanOfferType = loanOffer.type;
+    }
 }

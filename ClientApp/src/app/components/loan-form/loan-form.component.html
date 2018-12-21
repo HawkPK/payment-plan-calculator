@@ -2,8 +2,8 @@
 <h1>Loan Calculator</h1>
 <div class="form-group">
     <label for="sort" class="control-label"> Loan Type </label>
-    <select id="loanType" [(ngModel)]="_loanResource.loanType" name="loanType">
-        <option *ngFor="let loanType of _loanTypes" [value]="loanType">{{loanType}}</option>
+    <select id="loanType" (ngModelChange)="setLoanOffer($event)" [(ngModel)]="_loanResource.loanOfferId" name="loanType">
+        <option *ngFor="let loanOffer of _loanOfferResources" [value]="loanOffer.id">{{loanOffer.name}}</option>
     </select>
 </div>
 
@@ -18,8 +18,8 @@
         <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.repaymentPeriod" name="RepaymentPeriod">
   </div>
   <div class="form-group">
-      <label for="name-input" class="col-form-label">Bank Interest Rate</label>
-      <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.repaymentPeriod" name="RepaymentPeriod">
+      <label for="name-input" class="col-form-label">Interest Rate</label>
+      <input class="form-control text-center" type="text" [(ngModel)]="_loanResource.interest " name="Interest">
   </div>
 </div>
   <div class="col-md-6 col-md-offset-4 row">
@@ -40,9 +40,9 @@
     <tbody>
       <tr *ngFor="let installement of _installements">
         <td>{{ installement.month }}</td>
-        <td>{{ installement.asset }}</td>
-        <td>{{ installement.interest }}</td>
-        <td>{{ installement.installment }}</td>
+        <td>{{ installement.asset | currency:'EUR':true }}</td>
+        <td>{{ installement.interest | currency:'EUR':true}}</td>
+        <td>{{ installement.installment | currency:'EUR':true}}</td>
       </tr>
     </tbody>
   </table>

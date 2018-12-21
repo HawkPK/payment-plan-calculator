@@ -9,7 +9,6 @@ namespace payment_plan_calculator.Service
         public List<Installment> CreateNew(int loanValue, int totalMonthNumber, decimal interest)
         {
             var installments = new List<Installment>();
-            interest = 0.035m;
             decimal asset = (decimal)loanValue / totalMonthNumber;
             decimal loanValueToPay = loanValue;
             for (var i = 1; i <= totalMonthNumber; i++)
