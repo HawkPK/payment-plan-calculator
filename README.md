@@ -1,5 +1,5 @@
 # payment-plan-calculator
-The app to calculate and display the repayment plan
+The web app to calculate and display a payment plan for a loan
 
 To run app:
 Go to the ClientApp catalog

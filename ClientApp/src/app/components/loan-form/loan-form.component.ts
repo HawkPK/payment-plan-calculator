@@ -10,8 +10,11 @@ import { LoanOfferResource } from '../../model/LoanOfferResource';
   styleUrls: ['./loan-form.component.css']
 })
 export class LoanFormComponent implements OnInit {
-  private _installements: InstallmentResource[];
+  private _installments: InstallmentResource[];
+  private _installmentsCount: number = 0;
+  private _installementsPageSource: InstallmentResource[];
   private _loanResource: LoanResource = new LoanResource(0,0,0,"",0.0);
+  private _pageSize = 10;
   private _loanOfferResources: LoanOfferResource[];
   private _error = false;
 
@@ -30,11 +33,15 @@ export class LoanFormComponent implements OnInit {
   calculate(loadResource: LoanResource){
     if(!this._creditService.CheckIsLoanValid(loadResource)){
       this._error = true;
+      this._installmentsCount = 0;
     } else {
       this._error = false;
       this._creditService.GetInstallmentsPerMonth(loadResource).subscribe( data => {
-        this._installements = data as InstallmentResource[];   
+        this._installments = data as InstallmentResource[]; 
+        this._installmentsCount = this._installments.length;
+        this._installementsPageSource =  this._installments.slice(0,this._pageSize); 
       });
+      
     }
   }
 
@@ -43,4 +50,10 @@ export class LoanFormComponent implements OnInit {
     this._loanResource.interest = loanOffer.interest;
     this._loanResource.loanOfferType = loanOffer.type;
     }
+
+  onPageChange(page){
+    var rightBorder = page * this._pageSize;
+    var leftBorder = rightBorder - this._pageSize;
+    this._installementsPageSource = this._installments.slice(leftBorder, rightBorder);
+  }
 }

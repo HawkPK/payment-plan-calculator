@@ -31,7 +31,7 @@
   </div>
 </form>
 
-<table class='table'>
+<table class='table' *ngIf="_installmentsCount > 0">
     <thead>
       <tr>
         <th>Month</th>
@@ -41,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let installement of _installements">
+      <tr *ngFor="let installement of _installementsPageSource">
         <td>{{ installement.month }}</td>
         <td>{{ installement.asset | currency:'EUR'}}</td>
         <td>{{ installement.interest | currency:'EUR'}}</td>
@@ -49,5 +49,6 @@
       </tr>
     </tbody>
   </table>
+  <pagination [total-items]="_installmentsCount" [page-size]="_pageSize" (page-changed)="onPageChange($event)"></pagination>
 
 
