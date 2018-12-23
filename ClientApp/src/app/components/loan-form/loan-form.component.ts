@@ -13,7 +13,7 @@ export class LoanFormComponent implements OnInit {
   private _installments: InstallmentResource[];
   private _installmentsCount: number = 0;
   private _installementsPageSource: InstallmentResource[];
-  private _loanResource: LoanResource;
+  private _loanResource: LoanResource = new LoanResource();
   private _loanOfferResources: LoanOfferResource[];
   private _pageSize = 10;
   private _error = false;
@@ -42,10 +42,7 @@ export class LoanFormComponent implements OnInit {
   }
   setDefaultLoanOffer(){
     var defaultLoanOfferId = 1;
-    if(this._loanResource){
-      this._loanResource = new LoanResource();
-      this.setLoanOffer(defaultLoanOfferId);
-    }
+    this.setLoanOffer(defaultLoanOfferId);
   }
   setLoanOffer(id: Number): void {
     var loanOffer = this._loanOfferResources.filter(x => x.id == id)[0];
