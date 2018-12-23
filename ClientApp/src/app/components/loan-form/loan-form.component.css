@@ -4,3 +4,13 @@
 .form-inline .form-group input {
     width:100px;
 }
+.table {
+    max-width: 80%;
+}
+.summary-container {
+    padding: 27px 30px;
+    font-size: 14px;
+    color: #666;
+    text-align: left;
+    position: relative;
+}

@@ -16,7 +16,7 @@ namespace payment_plan_calculator.Service
                 var installment = new Installment()
                 {
                     Id = i,
-                    Asset = loanValueToPay * interest,
+                    Asset = asset,
                     Interest = loanValueToPay * interest,
                 };
                 installments.Add(installment);

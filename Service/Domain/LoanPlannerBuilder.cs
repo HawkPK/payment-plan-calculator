@@ -11,7 +11,7 @@ namespace payment_plan_calculator.Service.Domain.Interface
         private IInstallmentPlanner _equalInstallmentPlanner;
         private IInstallmentPlanner _decreasingInstallmentPlanner;
         private ILoanDao _loanDao;
-        public LoanPlannerBuilder() : this(new EqualInstallmentPlanner(), new EqualInstallmentPlanner(), new LoanDao())
+        public LoanPlannerBuilder() : this(new EqualInstallmentPlanner(), new DecreasingInstallmentPlanner(), new LoanDao())
         {
         }
 

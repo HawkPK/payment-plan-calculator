@@ -13,23 +13,19 @@ export class LoanFormComponent implements OnInit {
   private _installments: InstallmentResource[];
   private _installmentsCount: number = 0;
   private _installementsPageSource: InstallmentResource[];
-  private _loanResource: LoanResource = new LoanResource(0,0,0,"",0.0);
-  private _pageSize = 10;
+  private _loanResource: LoanResource;
   private _loanOfferResources: LoanOfferResource[];
+  private _pageSize = 10;
   private _error = false;
 
   constructor(private _creditService: CreditService) { 
   }
-
   ngOnInit() {
     this._creditService.GetLoanOfferts().subscribe( data => {
       this._loanOfferResources = data as LoanOfferResource[];
-      var loanOfferResource = this._loanOfferResources[0];
-      this._loanResource = new LoanResource(25000,10,loanOfferResource.id,loanOfferResource.type,loanOfferResource.interest);
+      this.setDefaultLoanOffer();
     });
-   
   }
-
   calculate(loadResource: LoanResource){
     if(!this._creditService.CheckIsLoanValid(loadResource)){
       this._error = true;
@@ -44,11 +40,19 @@ export class LoanFormComponent implements OnInit {
       
     }
   }
-
+  setDefaultLoanOffer(){
+    var defaultLoanOfferId = 1;
+    if(this._loanResource){
+      this._loanResource = new LoanResource();
+      this.setLoanOffer(defaultLoanOfferId);
+    }
+  }
   setLoanOffer(id: Number): void {
     var loanOffer = this._loanOfferResources.filter(x => x.id == id)[0];
     this._loanResource.interest = loanOffer.interest;
+    this._loanResource.loanOfferId = loanOffer.id;
     this._loanResource.loanOfferType = loanOffer.type;
+    this._installmentsCount = 0;
     }
 
   onPageChange(page){

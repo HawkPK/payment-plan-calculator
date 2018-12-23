@@ -20,7 +20,6 @@ namespace payment_plan_calculator.Service
                     Interest = loanValueToPay * interest,
                 };
                 installments.Add(installment);
-                loanValueToPay -= asset;
             }
             return installments;
         }

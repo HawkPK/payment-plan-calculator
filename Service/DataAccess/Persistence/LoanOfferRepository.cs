@@ -21,19 +21,18 @@ namespace payment_plan_calculator.Service.DataAccess.Persistence
                 {
                     Id = 1,
                     Interest = 0.035m,
-                    Type = IntallmentType.Equal,
+                    Type = IntallmentType.Decreasing,
                     Name = LoanName.Mortgage,
                 };
                 _loanOffers.Add(loanMortgageDetail);
-                /*
                 var loanCarOffer = new LoanOffer()
                 {
                     Id = 2,
                     Interest = 0.095m,
-                    Type = IntallmentType.Decreasing,
+                    Type = IntallmentType.Equal,
                     Name = LoanName.Car,
                 };
-                _loanOffers.Add(loanCarOffer);*/
+                _loanOffers.Add(loanCarOffer);
             }
         }
 

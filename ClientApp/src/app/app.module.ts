@@ -13,6 +13,7 @@ import { CounterComponent } from './components/counter/counter.component';
 import { FetchDataComponent } from './components/fetch-data/fetch-data.component';
 import { LoanFormComponent } from './components/loan-form/loan-form.component';
 import { PaginationComponent } from './components/shared/pagination/pagination.component';
+import { LoanSummaryComponent } from './components/loan-summary/loan-summary.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { PaginationComponent } from './components/shared/pagination/pagination.c
     CounterComponent,
     FetchDataComponent,
     LoanFormComponent,
-    PaginationComponent
+    PaginationComponent,
+    LoanSummaryComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

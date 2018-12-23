@@ -1,0 +1,22 @@
+<div>
+    <div class="result-summary">
+        <p>Summary</p>
+    </div>
+    <div>
+      <p class="result-container-header">
+        Amount of {{this.loanResource.loanOfferType}} installment:
+        <span>
+            <strong *ngIf="!checkIsEqualInstallmentType()">{{ this.minInstallmentValue | currency:'EUR'}}...{{ this.maxInstallmentValue | currency:'EUR'}}</strong>
+            <strong *ngIf="checkIsEqualInstallmentType()">{{ this.maxInstallmentValue | currency:'EUR'}}</strong>
+        </span>
+      </p>
+    </div>
+    <div>
+      <p class="installment-params">
+        <strong>Loan parameters</strong>:
+        <span class="installment-param">Loan value: <strong>{{this.loanResource.value | currency:'EUR'}}</strong></span>
+        <span class="installment-param">Repayment period: <strong>{{this.loanResource.repaymentPeriod}}</strong> months </span>
+        <span>Interest: <strong>{{this.loanResource.interest | percent:'1.0-2'}} </strong></span>
+      </p>
+    </div>
+  </div>
