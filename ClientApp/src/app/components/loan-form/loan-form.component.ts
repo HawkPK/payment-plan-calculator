@@ -11,7 +11,7 @@ import { LoanOfferResource } from '../../model/LoanOfferResource';
 })
 export class LoanFormComponent implements OnInit {
   private _installments: InstallmentResource[];
-  private _installmentsCount: number = 0;
+  private _isDisplaySummary: boolean = false;
   private _installementsPageSource: InstallmentResource[];
   private _loanResource: LoanResource = new LoanResource();
   private _loanOfferResources: LoanOfferResource[];
@@ -26,18 +26,17 @@ export class LoanFormComponent implements OnInit {
       this.setDefaultLoanOffer();
     });
   }
-  calculate(loadResource: LoanResource){
-    if(!this._creditService.CheckIsLoanValid(loadResource)){
+  calculate(loanResource: LoanResource){
+    if(!this._creditService.CheckIsLoanValid(loanResource)){
       this._error = true;
-      this._installmentsCount = 0;
+      this._isDisplaySummary = false;
     } else {
       this._error = false;
-      this._creditService.GetInstallmentsPerMonth(loadResource).subscribe( data => {
+      this._creditService.GetInstallmentsPerMonth(loanResource).subscribe( data => {
         this._installments = data as InstallmentResource[]; 
-        this._installmentsCount = this._installments.length;
+        this._isDisplaySummary = true;
         this._installementsPageSource =  this._installments.slice(0,this._pageSize); 
       });
-      
     }
   }
   setDefaultLoanOffer(){
@@ -49,9 +48,11 @@ export class LoanFormComponent implements OnInit {
     this._loanResource.interest = loanOffer.interest;
     this._loanResource.loanOfferId = loanOffer.id;
     this._loanResource.loanOfferType = loanOffer.type;
-    this._installmentsCount = 0;
-    }
-
+    this._isDisplaySummary = false;
+  }
+  resetCalculation(){
+    this._isDisplaySummary = false;
+  }
   onPageChange(page){
     var rightBorder = page * this._pageSize;
     var leftBorder = rightBorder - this._pageSize;
